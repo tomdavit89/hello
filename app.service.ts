@@ -42,7 +42,7 @@ export class AppService {
   updateUser(id: number, user: createUser) {
     this.mang.forEach((index) => {
       if (index.id === id) {
-        return user;
+        return this.mang[this.mang.indexOf(index)] = user;
       }
     });
   }
