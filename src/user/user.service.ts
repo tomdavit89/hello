@@ -1,58 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import{ Paging} from "./common/common.pagelimit";
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import {User} from './entity/entity.user'
+import {PageOptionsDto} from "./dto/page-options.dto";
+import { paginate } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class UserService {
-    private mang = [
-        {
-            id: 1,
-            name: "John Doe",
-            age: 28,
-            gender: "male",
-        },
-        {
-            id: 2,
-            name: "John",
-            age: 28,
-            gender: "Male",
-        },
-        {
-            id: 3,
-            name: "John",
-            age: 28,
-            gender: "Male",
-        },
-    ];
 
-    getAll() {
-        return this.mang;
+    constructor(@InjectRepository(User) private userRepository: Repository<User>) {
     }
 
-    getFillOne(id: number) {
-        this.mang.forEach((index) => {
-            if (index.id === id) {
-                return index;
-            }
+    async paginate(pageOptionsDto: PageOptionsDto) {
+        return paginate<User>(this.userRepository,{
+            page: pageOptionsDto.page,
+            limit: pageOptionsDto.limit,
         });
+    }
+
+    getFillOne(id: number): Promise<User | null>  {
+        return this.userRepository.findOneBy({ id });
     }
 
     createUser(user: CreateUserDto) {
-        return this.mang.push(user);
+        return this.userRepository.save(user);
     }
 
     updateUser(id: number, user: UpdateUserDto) {
-        this.mang.forEach((index:{id: number, name: string, age: number, gender: string}) => {
-            if (index.id === id) {
-                return this.mang[this.mang.indexOf(index)] = user;
-            }
-        });
+        return this.userRepository.update(id, user);
     }
 
     deleteUser(id: number) {
-        return this.mang.filter((index) => {
-            return index.id !== id;
-        });
+        return this.userRepository.delete(id);
     }
 }

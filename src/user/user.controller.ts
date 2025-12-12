@@ -1,14 +1,15 @@
-import { Controller, Get,Create, Post, Delete} from '@nestjs/common';
+import { Controller, Get, Post, Delete, Query} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import {PageOptionsDto} from "./dto/page-options.dto";
 @Controller()
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get()
-    getAll() {
-        return this.userService.getAll();
+    getAll(@Query() pageOptionsDto: PageOptionsDto) {
+        return this.userService.paginate(pageOptionsDto);
     }
 
     @Get("./id")
@@ -16,7 +17,7 @@ export class UserController {
         return this.userService.getFillOne(id);
     }
 
-    @Create()
+    @Post()
     createUser(user: CreateUserDto) {
         return this.userService.createUser(user);
     }
