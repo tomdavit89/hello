@@ -6,13 +6,13 @@ export class PageOptionsDto{
     @IsInt()
     @Type(() => Number)
     @Min(1)
-    readonly page?: 1;
+    readonly page: 1;
 
     @IsOptional()
     @Type(() => Number)
     @IsInt()
     @Min(1)
     @Max(100)
-    readonly limit? = 10;
+    readonly limit : 10;
 
 }

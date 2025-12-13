@@ -2,12 +2,16 @@ import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
 
 @Entity()
 export class User {
-    @PrimaryGeneratedColumn()
+
+    @PrimaryGeneratedColumn('uuid')
     id: number;
-    @Column()
+
+    @Column({type:'text'})
     name: string;
-    @Column()
+
+    @Column({type:'text'})
     age: number;
-    @Column()
+
+    @Column({type:'text'})
     gender: string;
 }

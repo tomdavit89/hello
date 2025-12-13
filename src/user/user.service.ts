@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {Body, Injectable} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,14 +17,15 @@ export class UserService {
         return paginate<User>(this.userRepository,{
             page: pageOptionsDto.page,
             limit: pageOptionsDto.limit,
-        });
+            }
+        );
     }
 
     getFillOne(id: number): Promise<User | null>  {
         return this.userRepository.findOneBy({ id });
     }
 
-    createUser(user: CreateUserDto) {
+    createUser( user: CreateUserDto) {
         return this.userRepository.save(user);
     }
 
