@@ -18,15 +18,15 @@ export class StockGateway {
     @WebSocketServer()
     server: Server;
 
-    _getStreams(args: ConnectionArgs) {
+    _getToken(args: ConnectionArgs) {
         const requestUrl = args?.url || '';
         const urlParams = new URLSearchParams(requestUrl.split('?')[1]);
-        return urlParams.get('streams')?.split('/') || [];
+        return urlParams.get('token');
     }
 
     handleConnection(client: WebSocket, args?: ConnectionArgs) {
-        const streams = this._getStreams(args ?? {});
-        console.log('streams', streams);
+        const token = this._getToken(args ?? {});
+        console.log('token', token);
         client.send('Welcome to the WebSocket server!');
     }
 

@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Auth } from 'src/modules/auth/entity/auth.entity';
 
 @Entity()
 export class User {
@@ -13,4 +14,7 @@ export class User {
 
   @Column({ type: 'text' })
   gender: string;
+
+  @ManyToOne(() => Auth, (auth) => auth.user)
+  auth: Auth;
 }
