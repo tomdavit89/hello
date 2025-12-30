@@ -30,7 +30,7 @@ export class SocketGateway
 
     handleConnection(client: WebSocket, args: any) {
         const token = this._getToken(args) ?? '';
-        if(!this.validateToken(token)) client.close()
+        // if(!this.validateToken(token)) client.close()
         this.clients.add(client);
     }
 
